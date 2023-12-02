@@ -1,11 +1,28 @@
 import { firstElement, lastElement } from '@rolster/helpers-array';
 
+export type Interpolators = LiteralObject<string> | string[];
+
 export const firstChar = (value: string): string => {
   return value.length === 0 ? '' : value.charAt(0);
 };
 
 export const lastChar = (value: string): string => {
-  return value.length ? '' : value.charAt(value.length - 1);
+  return value.length ? value.charAt(value.length - 1) : '';
+};
+
+export const normalize = (word: string): string => {
+  return word
+    .slice()
+    .replace(/á/g, 'a')
+    .replace(/Á/g, 'A')
+    .replace(/é/g, 'e')
+    .replace(/É/g, 'E')
+    .replace(/í/g, 'i')
+    .replace(/Í/g, 'I')
+    .replace(/ó/g, 'o')
+    .replace(/Ó/g, 'O')
+    .replace(/ú/g, 'u')
+    .replace(/Ú/g, 'U');
 };
 
 export const hasPattern = (
@@ -24,21 +41,6 @@ export const hasPattern = (
   return !!test.match(`^.*${filter}.*$`);
 };
 
-export const normalize = (word: string): string => {
-  return word
-    .slice()
-    .replace('á', 'a')
-    .replace('Á', 'A')
-    .replace('é', 'e')
-    .replace('É', 'E')
-    .replace('í', 'i')
-    .replace('Í', 'I')
-    .replace('ó', 'o')
-    .replace('Ó', 'O')
-    .replace('ú', 'u')
-    .replace('Ú', 'U');
-};
-
 export const initials = (word: string, size = 2): string => {
   const split = word.split(' ');
 
@@ -51,3 +53,15 @@ export const initials = (word: string, size = 2): string => {
 
   return `${firstChar(firstValue)}${firstChar(lastValue)}`.toUpperCase();
 };
+
+const regInterpolation = /{([^{}]*)}/g;
+
+export function interpolation(template: string, value?: Interpolators): string {
+  if (value) {
+    return template.replace(regInterpolation, (_, key) =>
+      Array.isArray(value) ? value[+key] : value[key]
+    );
+  }
+
+  return !regInterpolation.test(template) ? template : '';
+}
