@@ -1,6 +1,6 @@
 import { firstElement, lastElement } from '@rolster/helpers-array';
 
-export type Interpolators = LiteralObject<string> | string[];
+export type Interpolators = LiteralObject<any> | any[];
 
 export const firstChar = (value: string): string => {
   return value.length === 0 ? '' : value.charAt(0);
@@ -59,7 +59,7 @@ const regInterpolation = /{([^{}]*)}/g;
 export function interpolation(template: string, value?: Interpolators): string {
   if (value) {
     return template.replace(regInterpolation, (_, key) =>
-      Array.isArray(value) ? value[+key] : value[key]
+      String(Array.isArray(value) ? value[+key] : value[key])
     );
   }
 
