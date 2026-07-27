@@ -22,10 +22,10 @@ You must install the `@rolster/types` to define package data types, which are co
 
 ### Characters
 
-| Function           | Description                                                  |
-| ------------------ | ------------------------------------------------------------ |
-| `firstChar(value)` | Returns the first character, or `''` when the string is empty.|
-| `lastChar(value)`  | Returns the last character, or `''` when the string is empty. |
+| Function           | Description                                                    |
+| ------------------ | -------------------------------------------------------------- |
+| `firstChar(value)` | Returns the first character, or `''` when the string is empty. |
+| `lastChar(value)`  | Returns the last character, or `''` when the string is empty.  |
 
 ```typescript
 import { firstChar, lastChar } from '@rolster/strings';
